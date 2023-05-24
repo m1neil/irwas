@@ -1,6 +1,8 @@
 'use strict';
 
-import "./slider";
+import './slider';
+import modals from './modules/modals';
 
-console.log('Hello');
+modals();
+
 
