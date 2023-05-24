@@ -2,7 +2,7 @@ const modals = () => {
 
 	openModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
 	openModal('.phone_link', '.popup', '.popup_close');
-	openModal('.phone_link', '.popup', '.popup_close', 3000);
+	openModal('.phone_link', '.popup', '.popup_close', 60000);
 
 	function openModal(triggerSelector, modalSelector, crosshairCloseSelector, byTime = 0) {
 

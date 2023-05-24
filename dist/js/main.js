@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 const modals = () => {
   openModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
   openModal('.phone_link', '.popup', '.popup_close');
-  openModal('.phone_link', '.popup', '.popup_close', 3000);
+  openModal('.phone_link', '.popup', '.popup_close', 60000);
   function openModal(triggerSelector, modalSelector, crosshairCloseSelector) {
     let byTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
     const triggers = document.querySelectorAll(triggerSelector),
