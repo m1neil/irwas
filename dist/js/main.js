@@ -15,7 +15,9 @@ __webpack_require__.r(__webpack_exports__);
 const modals = () => {
   openModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
   openModal('.phone_link', '.popup', '.popup_close');
+  openModal('.phone_link', '.popup', '.popup_close', 3000);
   function openModal(triggerSelector, modalSelector, crosshairCloseSelector) {
+    let byTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
     const triggers = document.querySelectorAll(triggerSelector),
       modal = document.querySelector(modalSelector);
     triggers.forEach(trigger => {
@@ -23,14 +25,25 @@ const modals = () => {
         if (e.target) {
           e.preventDefault();
         }
-        modal.style.display = 'block';
-        const widthScroll = window.innerWidth - document.body.offsetWidth;
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = `${widthScroll}px`;
-        window.addEventListener('click', closeModal);
-        window.addEventListener('keydown', closeModal);
+        showModal(modal);
       });
     });
+    if (byTime) {
+      setTimeout(() => {
+        showModal(modal);
+      }, byTime);
+    }
+
+    // functions ====================================================================================
+
+    function showModal(modal) {
+      modal.style.display = 'block';
+      const widthScroll = window.innerWidth - document.body.offsetWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${widthScroll}px`;
+      window.addEventListener('click', closeModal);
+      window.addEventListener('keydown', closeModal);
+    }
     function closeModal(e) {
       const target = e.target;
       if (e.code === 'Escape' || target === modal || target.closest(crosshairCloseSelector)) {
