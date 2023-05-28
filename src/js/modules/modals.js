@@ -34,6 +34,7 @@ const modals = () => {
 
 			window.addEventListener('click', closeModal);
 			window.addEventListener('keydown', closeModal);
+
 		}
 
 		function closeModal(e) {

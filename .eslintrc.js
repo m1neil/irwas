@@ -3,7 +3,7 @@ module.exports = {
 		'browser': true,
 		'es2021': true
 	},
-	'extends': 'eslint:recommended',
+	// 'extends': 'eslint:recommended',
 	'overrides': [
 	],
 	'parserOptions': {
@@ -27,8 +27,8 @@ module.exports = {
 			'error',
 			'always'
 		],
-		'no-unused-vars': [
-			'warn'
-		],
+		// 'no-unused-vars': [
+		// 	'warn'
+		// ],
 	}
 };
