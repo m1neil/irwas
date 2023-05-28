@@ -1,6 +1,32 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/bodyController.js":
+/*!******************************************!*\
+  !*** ./src/js/modules/bodyController.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   bodyController: () => (/* binding */ bodyController)
+/* harmony export */ });
+const bodyController = {
+  widthScroll: window.innerWidth - document.body.offsetWidth,
+  lock: function () {
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${this.widthScroll}px`;
+  },
+  unLock: function () {
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '0';
+  }
+};
+
+
+/***/ }),
+
 /***/ "./src/js/modules/modals.js":
 /*!**********************************!*\
   !*** ./src/js/modules/modals.js ***!
@@ -12,46 +38,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const modals = () => {
-  openModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
-  openModal('.phone_link', '.popup', '.popup_close');
-  function openModal(triggerSelector, modalSelector, crosshairCloseSelector) {
-    let byTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-    const triggers = document.querySelectorAll(triggerSelector),
-      modal = document.querySelector(modalSelector);
-    triggers.forEach(trigger => {
-      trigger.addEventListener('click', e => {
-        if (e.target) {
-          e.preventDefault();
-        }
-        showModal(modal);
-      });
-    });
-    if (byTime) {
-      setTimeout(() => {
-        showModal(modal);
-      }, byTime);
-    }
+/* harmony import */ var _bodyController__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bodyController */ "./src/js/modules/bodyController.js");
 
-    // functions ====================================================================================
+const modals = (triggerSelector, closeModalClass) => {
+  const trigger = document.querySelector(triggerSelector);
+  if (!trigger) return;
+  const modal = document.querySelector(trigger.dataset.modal);
+  if (!modal) return;
+  trigger.addEventListener('click', openModal);
 
-    function showModal(modal) {
-      modal.style.display = 'block';
-      const widthScroll = window.innerWidth - document.body.offsetWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${widthScroll}px`;
-      window.addEventListener('click', closeModal);
-      window.addEventListener('keydown', closeModal);
-    }
-    function closeModal(e) {
-      const target = e.target;
-      if (e.code === 'Escape' || target === modal || target.closest(crosshairCloseSelector)) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '0';
-        window.removeEventListener('click', closeModal);
-        window.removeEventListener('keydown', closeModal);
-      }
+  // functions ===================================================
+
+  function openModal() {
+    modal.style.display = 'block';
+    _bodyController__WEBPACK_IMPORTED_MODULE_0__.bodyController.lock();
+    window.addEventListener('click', closeModal);
+    window.addEventListener('keydown', closeModal);
+  }
+  function closeModal(e) {
+    const target = e.target;
+    if (target && target === modal || target.closest(closeModalClass) || e.code === 'Escape') {
+      modal.style.display = 'none';
+      _bodyController__WEBPACK_IMPORTED_MODULE_0__.bodyController.unLock();
+      window.removeEventListener('click', closeModal);
+      window.removeEventListener('keydown', closeModal);
     }
   }
 };
@@ -14003,17 +14013,17 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
-/* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
-/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 
 
 
 
 
-(0,_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
-(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
-(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
+(0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])('.popup_engineer_btn', '.popup_close');
+(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
+(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
 })();
 
 /******/ })()

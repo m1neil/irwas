@@ -1,55 +1,36 @@
-const modals = () => {
+import { bodyController } from './bodyController';
 
-	openModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
-	openModal('.phone_link', '.popup', '.popup_close');
+const modals = (triggerSelector, closeModalClass) => {
+	const trigger = document.querySelector(triggerSelector);
+	if (!trigger) return;
 
-	function openModal(triggerSelector, modalSelector, crosshairCloseSelector, byTime = 0) {
+	const modal = document.querySelector(trigger.dataset.modal);
+	if (!modal) return;
 
-		const triggers = document.querySelectorAll(triggerSelector),
-			modal = document.querySelector(modalSelector);
+	trigger.addEventListener('click', openModal);
 
-		triggers.forEach(trigger => {
-			trigger.addEventListener('click', (e) => {
-				if (e.target) {
-					e.preventDefault();
-				}
-				showModal(modal);
-			});
-		});
+	// functions ===================================================
 
-		if (byTime) {
-			setTimeout(() => {
-				showModal(modal);
-			}, byTime);
-		}
-
-		// functions ====================================================================================
-
-		function showModal(modal) {
-			modal.style.display = 'block';
-
-			const widthScroll = window.innerWidth - document.body.offsetWidth;
-			document.body.style.overflow = 'hidden';
-			document.body.style.paddingRight = `${widthScroll}px`;
-
-			window.addEventListener('click', closeModal);
-			window.addEventListener('keydown', closeModal);
-
-		}
-
-		function closeModal(e) {
-			const target = e.target;
-			if (e.code === 'Escape' || target === modal || target.closest(crosshairCloseSelector)) {
-				modal.style.display = 'none';
-				document.body.style.overflow = '';
-				document.body.style.paddingRight = '0';
-				window.removeEventListener('click', closeModal);
-				window.removeEventListener('keydown', closeModal);
-			}
-		}
-
+	function openModal() {
+		modal.style.display = 'block';
+		bodyController.lock();
+		window.addEventListener('click', closeModal);
+		window.addEventListener('keydown', closeModal);
 	}
 
+	function closeModal(e) {
+		const target = e.target;
+		if (
+			(target && target === modal) ||
+			target.closest(closeModalClass) ||
+			e.code === 'Escape'
+		) {
+			modal.style.display = 'none';
+			bodyController.unLock();
+			window.removeEventListener('click', closeModal);
+			window.removeEventListener('keydown', closeModal);
+		}
+	}
 };
 
 export default modals;
